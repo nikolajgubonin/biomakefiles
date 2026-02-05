@@ -33,67 +33,68 @@ RENAME_EASY_CLUSTER_OUTPUT = mv $(basename $@)_all_seqs.fasta $(basename $@).all
 
 # *** Targets ***
 #
-%.all_ecs: %.faa.gz
+%.all_ecs: %.faa
 	for c in $(MMSEQS2_EASY_CLUSTER_LEVELS); do \
-		make $(basename $(basename $@)).ec.$$c.clusters; \
+		mmseqs easy-cluster $(MMSEQS2_EASY_CLUSTER_OPTS) --min-seq-id $$c $< $(basename $@).ec.$$c tmp; \
+		mv $(basename $@).ec.$${c}_all_seqs.fasta $(basename $@).ec.$${c}.all_seqs.faa; mv $(basename $@).ec.$${c}_rep_seq.fasta $(basename $@).ec.$${c}.rep_seq.faa; ln -fs $(basename $@).ec.$${c}_cluster.tsv $(basename $@).ec.$$c.clusters.tsv; \
 	done
 	touch $@
 
-%.ec.0.95.clusters: %.faa.gz
+%.ec.0.95.clusters: %.faa
 	@$(MAKECALL_MMSEQS2_EASY_CLUSTER)
 	$(MMSEQS2_EASY_CLUSTER)
 	$(RENAME_EASY_CLUSTER_OUTPUT)
 	@echo "`date +"%Y%m%d %H:%M:%S"`: DONE" >> $@.makecall
 
-%.ec.0.90.clusters: %.faa.gz
+%.ec.0.90.clusters: %.faa
 	@$(MAKECALL_MMSEQS2_EASY_CLUSTER)
 	$(MMSEQS2_EASY_CLUSTER)
 	$(RENAME_EASY_CLUSTER_OUTPUT)
 	@echo "`date +"%Y%m%d %H:%M:%S"`: DONE" >> $@.makecall
 
-%.ec.0.85.clusters: %.faa.gz
+%.ec.0.85.clusters: %.faa
 	@$(MAKECALL_MMSEQS2_EASY_CLUSTER)
 	$(MMSEQS2_EASY_CLUSTER)
 	$(RENAME_EASY_CLUSTER_OUTPUT)
 	@echo "`date +"%Y%m%d %H:%M:%S"`: DONE" >> $@.makecall
 
-%.ec.0.80.clusters: %.faa.gz
+%.ec.0.80.clusters: %.faa
 	@$(MAKECALL_MMSEQS2_EASY_CLUSTER)
 	$(MMSEQS2_EASY_CLUSTER)
 	$(RENAME_EASY_CLUSTER_OUTPUT)
 	@echo "`date +"%Y%m%d %H:%M:%S"`: DONE" >> $@.makecall
 
-%.ec.0.75.clusters: %.faa.gz
+%.ec.0.75.clusters: %.faa
 	@$(MAKECALL_MMSEQS2_EASY_CLUSTER)
 	$(MMSEQS2_EASY_CLUSTER)
 	$(RENAME_EASY_CLUSTER_OUTPUT)
 	@echo "`date +"%Y%m%d %H:%M:%S"`: DONE" >> $@.makecall
 
-%.ec.0.70.clusters: %.faa.gz
+%.ec.0.70.clusters: %.faa
 	@$(MAKECALL_MMSEQS2_EASY_CLUSTER)
 	$(MMSEQS2_EASY_CLUSTER)
 	$(RENAME_EASY_CLUSTER_OUTPUT)
 	@echo "`date +"%Y%m%d %H:%M:%S"`: DONE" >> $@.makecall
 
-%.ec.0.65.clusters: %.faa.gz
+%.ec.0.65.clusters: %.faa
 	@$(MAKECALL_MMSEQS2_EASY_CLUSTER)
 	$(MMSEQS2_EASY_CLUSTER)
 	$(RENAME_EASY_CLUSTER_OUTPUT)
 	@echo "`date +"%Y%m%d %H:%M:%S"`: DONE" >> $@.makecall
 
-%.ec.0.60.clusters: %.faa.gz
+%.ec.0.60.clusters: %.faa
 	@$(MAKECALL_MMSEQS2_EASY_CLUSTER)
 	$(MMSEQS2_EASY_CLUSTER)
 	$(RENAME_EASY_CLUSTER_OUTPUT)
 	@echo "`date +"%Y%m%d %H:%M:%S"`: DONE" >> $@.makecall
 
-%.ec.0.55.clusters: %.faa.gz
+%.ec.0.55.clusters: %.faa
 	@$(MAKECALL_MMSEQS2_EASY_CLUSTER)
 	$(MMSEQS2_EASY_CLUSTER)
 	$(RENAME_EASY_CLUSTER_OUTPUT)
 	@echo "`date +"%Y%m%d %H:%M:%S"`: DONE" >> $@.makecall
 
-%.ec.0.50.clusters: %.faa.gz
+%.ec.0.50.clusters: %.faa
 	@$(MAKECALL_MMSEQS2_EASY_CLUSTER)
 	$(MMSEQS2_EASY_CLUSTER)
 	$(RENAME_EASY_CLUSTER_OUTPUT)
@@ -102,5 +103,5 @@ RENAME_EASY_CLUSTER_OUTPUT = mv $(basename $@)_all_seqs.fasta $(basename $@).all
 %.singletons: %.clusters
 	cut -f 1 $< | sort | uniq -c | grep ' 1 ' | sed 's/^ \+1 //' > $@
 
-%.rep_seq.wosingletons.faa.gz: %.rep_seq.faa.gz %.singletons
+%.rep_seq.wosingletons.faa: %.rep_seq.faa %.singletons
 	seqtk subseq $^ > tmpfile
