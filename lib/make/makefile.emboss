@@ -21,7 +21,7 @@ EMBOSS_OPTS =
 # file, the file that records versions, file stamps, parameters etc.
 #
 # *Don't redefine!*
-MAKECALL_EMBOSS_VERSION     = echo "`date +"%Y%m%d %H:%M:%S"`: $@ was made with `transeq --version`" > $@.makecall
+MAKECALL_EMBOSS_VERSION     = echo "`date +"%Y%m%d %H:%M:%S"`: $@ was made with `transeq --version 2>&1`" > $@.makecall
 MAKECALL_EMBOSS_PARAMS      = echo "	Called with parameters: $(EMBOSS_OPTS)" >> $@.makecall
 MAKECALL_EMBOSS_INFILES     = echo "	Input files: $^ (`ls -lL $^|tr '\n' ','`)" >> $@.makecall
 MAKECALL_EMBOSS             = $(MAKECALL_EMBOSS_VERSION); $(MAKECALL_EMBOSS_PARAMS); $(MAKECALL_EMBOSS_INFILES)
