@@ -30,7 +30,15 @@ MAKECALL_BAKTA             = $(MAKECALL_BAKTA_VERSION); $(MAKECALL_BAKTA_PARAMS)
 
 # *** Targets ***
 
+all_baktas: $(subst .fna.gz,.bakta.out,$(wildcard *.fna.gz)) $(subst .fna,.bakta.out,$(wildcard *.fna))
+
 %.bakta.out: %.fna.gz
+	@$(MAKECALL_BAKTA)
+	bakta --db $(BAKTA_DB) --output $(basename $@).d $(BAKTA_OPTS) $< | tee $@
+	pigz $(basename $@).d/*
+	@echo "`date +"%Y%m%d %H:%M:%S"`: DONE" >> $@.makecall
+
+%.bakta.out: %.fna
 	@$(MAKECALL_BAKTA)
 	bakta --db $(BAKTA_DB) --output $(basename $@).d $(BAKTA_OPTS) $< | tee $@
 	pigz $(basename $@).d/*
