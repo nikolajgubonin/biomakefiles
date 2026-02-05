@@ -40,6 +40,18 @@ RENAME_EASY_CLUSTER_OUTPUT = mv $(basename $@)_all_seqs.fasta $(basename $@).all
 	done
 	touch $@
 
+%.ec.1.00.clusters: %.faa
+	@$(MAKECALL_MMSEQS2_EASY_CLUSTER)
+	$(MMSEQS2_EASY_CLUSTER)
+	$(RENAME_EASY_CLUSTER_OUTPUT)
+	@echo "`date +"%Y%m%d %H:%M:%S"`: DONE" >> $@.makecall
+
+%.ec.0.99.clusters: %.faa
+	@$(MAKECALL_MMSEQS2_EASY_CLUSTER)
+	$(MMSEQS2_EASY_CLUSTER)
+	$(RENAME_EASY_CLUSTER_OUTPUT)
+	@echo "`date +"%Y%m%d %H:%M:%S"`: DONE" >> $@.makecall
+
 %.ec.0.95.clusters: %.faa
 	@$(MAKECALL_MMSEQS2_EASY_CLUSTER)
 	$(MMSEQS2_EASY_CLUSTER)

@@ -125,6 +125,11 @@ idxstats.tsv.gz: $(wildcard *.idxstats.gz)
 	touch $@
 	@echo "`date +"%Y%m%d %H:%M:%S"`: DONE" >> $@.makecall
 
+all_bam2fastq: $(subst .bam,.fastq.gz,$(wildcard *.bam))
+
+%.fastq.gz: %.bam
+	samtools bam2fq $< | gzip -c > $@
+
 all_bam.md5s: $(subst .bam,.bam.md5,$(wildcard *.bam))
 
 %.bam.md5: %.bam
