@@ -95,3 +95,10 @@ CORRECT_FAA = cat $(word 3,$^) > $@; grep -F -A 1 -f $(wordlist 1,2,$^) | grep -
 
 %.interesting.fna:
 	touch $@
+
+# Cut off sequence names until @-sign
+%.short_names.alnfaa: %.alnfaa
+	sed '/>/s/>.*@/>/' $< > $@
+
+%.short2long.sed: %.alnfaa
+	grep '^>' $< | sed 's/.*@\(.*\)/s:\1:&:/' > $@
