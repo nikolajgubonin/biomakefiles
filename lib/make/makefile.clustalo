@@ -64,3 +64,13 @@ clustalo_align_all_faas: $(subst .faa,.co.alnfaa,$(wildcard *.faa))
 	@$(MAKECALL_CLUSTALO)
 	gunzip -c $<  | clustalo -i - -o $@ --force $(CLUSTALO_OPTS)
 	@echo "`date +"%Y%m%d %H:%M:%S"`: DONE" >> $@.makecall
+
+%.co.alnffn: %.ffn
+	@$(MAKECALL_CLUSTALO)
+	clustalo -i $< -o $@ --force $(CLUSTALO_OPTS)
+	@echo "`date +"%Y%m%d %H:%M:%S"`: DONE" >> $@.makecall
+
+%.co.alnffn: %.ffn.gz
+	@$(MAKECALL_CLUSTALO)
+	gunzip -c $<  | clustalo -i - -o $@ --force $(CLUSTALO_OPTS)
+	@echo "`date +"%Y%m%d %H:%M:%S"`: DONE" >> $@.makecall
