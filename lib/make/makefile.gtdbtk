@@ -15,7 +15,8 @@ SHELL := /bin/bash
 #
 GTDBTK_RELEASE = SET GTDBTK_RELEASE TO THE CURRENT RELEASE (JUST THE NUMBER, E.G. 86)
 
-# Use --cpus N 
+# Use --cpus N --pplacer_cpus N
+# To skip the ANI screen: --skip_ani_screen
 GTDBTK_OPTIONS = 
 
 # Use --pplacer_cpus N to set number of cores and likely --skip_ani_screen
