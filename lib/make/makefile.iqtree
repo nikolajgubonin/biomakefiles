@@ -18,6 +18,8 @@ SHELL := /bin/bash
 # -nt N sets the number of cores (AUTO auto-detect a good number).
 #
 # -bnni to reduce the risk of overestimating branch supports
+#
+# -nm N to change the maximum number of iterations (1000 by default)
 IQTREE_OPTS = -B 1000 -nt AUTO
 
 IQTREE_ASR_OPTS  = -nt AUTO
