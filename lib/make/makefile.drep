@@ -13,6 +13,10 @@ SHELL := /bin/bash
 # Override in your Makefile by setting a parameter *after* the row that
 # includes this file, see documentation in doc/makefile.md.
 #
+# Threads: -p N (6 is the default)
+# Min. length: -l N (50000 is the default)
+# Primary cluster ANI: -pa P_ANI (0.9 is the default)
+# Secondary cluster ANI: -sa S_ANI (0.95 is the default)
 DREP_DEREPLICATE_OPTS = 
 
 # *** Internal ***
