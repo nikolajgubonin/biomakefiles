@@ -1,0 +1,41 @@
+# makefile.galah
+#
+# Library makefile to make running galah simpler.
+#
+# Include the full path of this file in your Makefile ...
+#
+# Author: __AUTHOR_EMAIL__
+
+SHELL := /bin/bash
+
+# *** Parameters ***
+
+# Override in your Makefile by setting a parameter *after* the row that
+# includes this file, see documentation in doc/makefile.md.
+#
+# --checkm2-quality-report PATH
+# --checkm-tab-table PATH
+# --min-completeness FLOAT (percentage)
+# --max-contamination FLOAT (percentage)
+# --ani FLOAT (percentage; default 95)
+# --quality-formula FORMULA (see doc at https://wwood.github.io/galah/galah-cluster.html)
+# -t, --threads INT
+GALAH_OPTS =
+
+# *** Internal ***
+
+# MAKECALL_GALAH is a macro that defines what will be output to the .makecall
+# file, the file that records versions, file stamps, parameters etc.
+#
+# *Don't redefine!*
+MAKECALL_GALAH_VERSION     = echo "`date +"%Y%m%d %H:%M:%S"`: $@ was made with `galah --version`" > $@.makecall
+MAKECALL_GALAH_PARAMS      = echo "	Called with parameters: $(GALAH_OPTS)" >> $@.makecall
+MAKECALL_GALAH_INFILES     = echo "	Input files: $^ (`ls -lL $^|tr '\n' ','`)" >> $@.makecall
+MAKECALL_GALAH             = $(MAKECALL_GALAH_VERSION); $(MAKECALL_GALAH_PARAMS); $(MAKECALL_GALAH_INFILES)
+
+# *** Targets ***
+
+%.galah.out: %.d
+	@$(MAKECALL_GALAH)
+	galah cluster --genome-fasta-directory $< $(GALAH_OPTS) --output-cluster-definition $(basename $@).tsv --output-representative-fasta-directory $(basename $@).galah.genomes.d 2>&1 | tee $@
+	@echo "`date +"%Y%m%d %H:%M:%S"`: DONE" >> $@.makecall
